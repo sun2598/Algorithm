@@ -15,26 +15,42 @@ public class P04_03 {
 // 네 번째 구간은 [10, 23, 17, 10]는 매출액의 종류가 3이다.
 // N일간의 매출기록과 연속구간의 길이 K가 주어지면 첫 번째 구간부터 각 구간별 매출액의 종류를 출력하는 프로그램을 작성하세요.
     
+    // Two Pointer, Sliding Window 둘 다 적용!!
+    
+    // lt       rt
+    // 20 12 20 10 23 17 10   -> 일단 rt전까지 3개만 hashmap에 넣고 시작.
+    // <HashMap>
+    // key :   20 12 10       -> map.size()가 매출액 종류 개수임
+    // value : 2  1  1
+    //
+    //    lt       rt
+    // 20 12 20 10 23 17 10
+    // <HashMap>
+    // key :   20 12 10 23     -> lt가 가리키던 key에 value 1 감소, rt가 가리키는 key에 value 1 증가
+    // value : 1  1  1  1         (만약 감소시킨 후의 value가 0이라면 그 key는 삭제! 그 후 lt값 증가시켜야함)
     public ArrayList<Integer> solution(int n, int k, int[] arr) {
         ArrayList<Integer> answer = new ArrayList<>();
         
         HashMap<Integer, Integer> HM = new HashMap<>();
         
-        // 일단 map 생성, 대입
+        // 일단 rt전까지 3개만 hashmap에 넣고 시작.
         for (int i = 0; i < k - 1; i++) {
             HM.put(arr[i], HM.getOrDefault(arr[i], 0) + 1);
         }
         
+        // Two Pointer, Sliding Window
         int lt = 0;
         for (int rt = k - 1; rt < n; rt++) {
             HM.put(arr[rt], HM.getOrDefault(arr[rt], 0) + 1);
-            answer.add(HM.size());
-            HM.put(arr[lt], HM.get(arr[lt]) - 1);
             
-            if (HM.get(arr[lt]) == 0) {
+            answer.add(HM.size()); // map.size()가 매출액 종류 개수임
+            
+            HM.put(arr[lt], HM.get(arr[lt]) - 1); // window 밀기 전 -> lt가 가리킨 key의 value 1 감소
+            
+            if (HM.get(arr[lt]) == 0) { // 감소시킨 후의 value가 0이라면 그 key는 삭제!
                 HM.remove(arr[lt]);
             }
-            lt++;
+            lt++; // window 밀기.
         }
         
         return answer;
