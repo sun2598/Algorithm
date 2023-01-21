@@ -8,27 +8,36 @@ public class P04_05 {
 // 기록한 값 중 K번째로 큰 수를 출력하는 프로그램을 작성하세요. (K번째 수가 존재하지 않으면 -1를 출력합니다.)
 // 만약 큰 수부터 만들어진 수가 25 25 23 23 22 20 19......이고 K값이 3이라면 K번째 큰 값은 22입니다.
     
-    // lt    rt
-    // 13 15 34 23 45 65 33 11 26 42
-    
     public int solution(int n, int k, int[] arr) {
-        int answer = 0;
+        int answer = -1; // k번쨰 값이 없다면 -1 리턴
     
-        // 3개 숫자의 합들을 map에 세팅
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int lt = 0;
-        for (int rt = 2; rt < n; rt++) {
-            map.put(arr[lt] + arr[lt+1] + arr[lt+2], map.getOrDefault(arr[lt] + arr[lt+1] + arr[lt+2], 0) + 1);
-            
-            lt++;
+        // List : 순서 유지, 중복 저장
+        // Set : 순서 유지 X, 중복 저장 X  -> 이 중복저장되지 않는 특성을 이용
+        //     -- TreeSet : 기본적으로 오름차순으로 정렬되어 저장됨! (Collections.reverseOrder()로 내림차순도 가능)
+        TreeSet<Integer> Tset = new TreeSet<>(Collections.reverseOrder());
+        
+        // 3개 숫자의 합들을 TreeSet에 세팅 -> 3중 for문
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int l = j + 1; l < n; l++) {
+                    Tset.add(arr[i] + arr[j] + arr[l]);
+                }
+            }
         }
-        // k번째 큰 수 구하기 : map -> keyset으로 바꾸기
-        List<Integer> keySet = new ArrayList<>(map.keySet());
-    
-        // 키 값으로 오름차순 정렬 : Collections.sort(keySet);
-        // 키 값으로 내림차순 정렬 : Collections.reverse(keySet);
-        Collections.reverse(keySet);
-
+        // k번째 수 구하기
+        int cnt = 0;
+        for (int x : Tset) {
+            cnt++;
+            if (cnt == k) {
+                return x; // answer = x; 하지 않고 그냥 바로 리턴해버림
+            }
+        }
+        
+        // <TreeSet>의 메소드들
+        Tset.remove(143); // 143을 지움
+        Tset.size(); // 개수
+        Tset.first(); // 첫번째 원소.
+        Tset.last(); // 마지막 원소.
         
         return answer;
     }
