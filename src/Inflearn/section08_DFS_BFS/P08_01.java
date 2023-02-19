@@ -12,11 +12,11 @@ public class P08_01 {
 // D(L, sum)  -> L은 앞에서부터 몇개를 부분집합으로 만드는지, sum은 그 합
 //                         DFS(0,0)
 //                       o         x
-//                  DFS(1,1)      DFS(0,0)
+//                  DFS(1,1)      DFS(1,0)
 //                o          x
-//          DFS(2,4)         DFS(1,1)
+//          DFS(2,4)         DFS(2,1)
 //         o        x
-//   DFS(2,9)       DFS(2,4)
+//   DFS(3,9)       DFS(3,4)
 //  { 1 3 5 }        { 1 3 }
 
 // 전체의 합 total : 32
