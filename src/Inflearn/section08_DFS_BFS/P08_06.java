@@ -35,6 +35,7 @@ public class P08_06 {
 //              DFS(1)              DFS(1)            DFS(1)
 //                1    2          0       2         0    1
 //              DFS(2)DFS(2)  DFS(2)     DFS(2)  DFS(2)DFS(2)
+//              [3 6] [3 9]   [6 3]      [6 9]   [9 3] [9 6]
     
     static int n, m;
     static int[] arr, pm, ch;
